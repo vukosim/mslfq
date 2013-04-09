@@ -76,9 +76,43 @@ class Test(unittest.TestCase):
         self.assertEqual(np.sign(weights[3]), -1)
     
     def testLongFit(self):
-        print self.learner.fit_data(self.data, self.env)
+        weights = self.learner.fit_data(self.data, self.env)
         
+        self.assertEqual(len(weights), 1)
+        self.assertEqual(len(weights[0]), 6)
+    
+    def testMultiStage(self):
+        #set up data
+        stages = 2
+        data = []
+        s = [1, 1]
+        a = "Drug_A"
+        r = 1.0
+        ns = [1, 1]
         
+        data.append([1, s, a, r, ns])
+        a = "Drug_B"
+        r = 0.0
+        ns = [1, 1]
+        data.append([1, s, a, r, ns])
+        
+        s = [0, 0]
+        a = "Drug_B"
+        r = 0.0
+        ns = [1, 1]
+        
+        data.append([0, s, a, r, ns])
+        a = "Drug_A"
+        r = 0.0
+        ns = [0, 0]
+        data.append([0, s, a, r, ns])
+        learner = MSLFQ(stages=stages, gamma=1.0)
+        
+        weights = learner.fit_data(data, self.env)
+        self.assertEqual(len(weights), 2)
+        self.assertEqual(len(weights[0]), 6)
+        
+        print weights
     
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

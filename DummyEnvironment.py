@@ -26,7 +26,6 @@ class DummyEnvironment(object):
         features.append(1.0)
         return features
         
-        
     def phi(self, stage, s, a):
         conv_state = self.convert(s)
         
@@ -35,7 +34,6 @@ class DummyEnvironment(object):
         stop = start + self.num_features 
         
         features[start:stop] = list(conv_state)
-        
         return features
 
     def linear_policy(self, stage, w, s):
@@ -48,5 +46,3 @@ class DummyEnvironment(object):
         #print f
         result = np.dot(w, f)
         return result
-    
-    
